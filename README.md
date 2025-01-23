@@ -1,5 +1,5 @@
 
-# Slack Price and Sentiment Alert
+# Real-Time Competitor Analysis for E-Commerce
 
 This project retrieves product data, analyzes sentiment, and forecasts prices, then sends an update to a Slack channel using a webhook.
 
