@@ -3,7 +3,7 @@ script for terminal interface and slack notification
 '''
 
 from analyse_sentiment import analyse_sentiment
-from scrape import scrape_review_data_and_save, scrape_realtime_price_data
+from scrape import scrape_data_and_save
 from utils import products_links_map, send_to_slack, format_notification
 import pandas as pd
 import os
@@ -45,10 +45,15 @@ def predict_future_prices(product_name, file_path, x_days):
     return predictions
 
 def process_and_present(product, forecast_for_days):
-    price_data = scrape_realtime_price_data(products_links_map[product])
-    review_data = scrape_review_data_and_save({product: products_links_map[product]})
+    title, price, discount, review_data = scrape_data_and_save({product: products_links_map[product]})
     sentiment_data = analyse_sentiment(review_data[product])
     
+    price_data = {
+        "title": title,
+        "price": price,
+        "discount on MRP": discount
+    }
+
     print("\n")
     for key in price_data.keys():
         print(f"{key}: {price_data.get(key)}")

@@ -1,5 +1,5 @@
 """
-Scrape top customer reviews from Amazon products
+Scrape Products data from Amazon
 """
 
 from selenium import webdriver # type: ignore
@@ -28,17 +28,18 @@ def valid_page_format(driver, link):
     sleep(randint(4, 9))
     try:
         review_section = driver.find_element(By.CLASS_NAME, 'review-views')
-        return review_section
+        if review_section:
+            return driver
     except:
         return False
 
-def scrape_review_data_and_save(products_links_map):
+def scrape_data_and_save(products_links_map):
     '''
     function to scrape and save product
-    reviews from amazon
+    data from amazon
     '''
     review_data = {}
-    for product in tqdm(products_links_map.keys(), desc="Scraping Reviews"):
+    for product in tqdm(products_links_map.keys(), desc="Scraping Product Data"):
         customer_reviews = []
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options = chrome_options)
         right_format = valid_page_format(driver, products_links_map[product])
@@ -49,18 +50,25 @@ def scrape_review_data_and_save(products_links_map):
             driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options = chrome_options)
             right_format = valid_page_format(driver, products_links_map[product])
         
-        review_section = right_format
+        title = driver.find_element(By.CLASS_NAME, 'product-title-word-break').text
+        price = driver.find_element(By.CLASS_NAME, 'priceToPay').text
+        try:
+            discount = driver.find_element(By.CLASS_NAME, 'savingsPercentage').text
+        except:
+            discount = "not specified on the site"
+        
+        review_section = right_format.find_element(By.CLASS_NAME, 'review-views')
         if review_section:
             reviews = review_section.find_elements(By.CLASS_NAME, 'aok-relative')
             for review in reviews:
                 date = review.find_element(By.CLASS_NAME, 'review-date').text.split('on ')[1].strip()
-                title = review.find_element(By.CLASS_NAME, 'review-title').text
+                review_title = review.find_element(By.CLASS_NAME, 'review-title').text
                 rating = review.find_element(By.CLASS_NAME, 'a-icon-alt').get_attribute('textContent')
                 text = review.find_element(By.CLASS_NAME, 'reviewText').text
 
                 customer_reviews.append({
                     'date': date,
-                    'title': title,
+                    'title': review_title,
                     'rating': rating,
                     'text': text
                 })
@@ -72,29 +80,4 @@ def scrape_review_data_and_save(products_links_map):
     
     del products_links_map
 
-    return review_data
-
-def scrape_realtime_price_data(link):
-    '''
-    function to scrape real time price data
-    '''
-    
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options = chrome_options)
-    sleep(randint(4, 9))
-    driver.get(link)
-    title = driver.find_element(By.CLASS_NAME, 'product-title-word-break').text
-    price = driver.find_element(By.CLASS_NAME, 'priceToPay').text
-    try:
-        discount = driver.find_element(By.CLASS_NAME, 'savingsPercentage').text
-    except:
-        discount = "notn specified on the site"
-
-    data = {
-        'title': title,
-        'price': price,
-        'discount on MRP': discount,
-    }
-    driver.quit()
-
-    # print(data)
-    return data
+    return title, price, discount, review_data

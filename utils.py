@@ -6,8 +6,8 @@ import requests
 load_dotenv()
 slack_webhook = os.getenv("SLACK_WEBHOOK_URL")
 
-system_prompt = """Analyse the sentiment of the following product reviews and provide the response in maximum of 20 words.
 
+system_prompt = """Analyse the sentiment of the following product reviews and provide the response in maximum of 20 words.
 # EXAMPLE OUTPUT: ['mostly positive, the customers are impressed by the product and have commended the service from the company']
 """
 
@@ -21,6 +21,10 @@ products_links_map = {
 }
 
 def format_notification(data):
+    '''
+    function to transform a python dictionary
+    into the desired slack notification format
+    '''
     forecast_df = data["forecast"]
     forecast = "\n".join(
         [f"\t{index + 1}\t{row['Date']}\t{row['Predicted Price']}" for index, row in forecast_df.iterrows()]
@@ -34,6 +38,9 @@ def format_notification(data):
     )
 
 def send_to_slack(message):
+    '''
+    function to send the slack notification
+    '''
     payload = {"text": message}
     response = requests.post(slack_webhook, data=json.dumps(payload), headers={"Content-Type": "application/json"})
     if response.status_code != 200:
