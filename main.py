@@ -9,6 +9,10 @@ import pandas as pd
 import json
 import time
 from datetime import datetime
+from utils.llm_inference import (
+    analyse_competitor_strategy as anls,
+    provide_predictive_strategy as pps   
+)
 from utils.slack_notification import send_to_slack
 
 def load_data():
@@ -40,17 +44,29 @@ df.columns = ['Date', 'Time', 'Title', 'Price', 'Discount', 'Sentiment']
 
 st.title('Real-Time Competitor Analysis for E-Commerce')
 
-st.write("Last Scraped Data:")
+st.write("**Last Scraped Data:**")
 st.table(df)
 
+st.write("**Competitor Strategy Analysis:**")
+competitor_strategy = anls(load_data())
+st.write(competitor_strategy)
+
+st.divider()
+
+st.markdown("<h2 style='font-size:24px;'>Initiate Manual Scraping:</h2>", unsafe_allow_html=True)
 scrape_button = st.button('Scrape Product Data')
 
 if scrape_button:
     scrape()
 
+st.divider()
+
+# st.write("**Forecasting and Strategy:**")
+st.markdown("<h2 style='font-size:24px;'>Forecasting and Strategy:</h2>", unsafe_allow_html=True)
+
 model = st.selectbox('Select Model:', ['Sony Digital Camera', 'Lenovo Thinkpad E14', 'Samsung Galaxy S23 Ultra', 'Apple iPhone 15', 'Whirpool Washing Machine', 'Sony Playstation 5 Console'])
 num_days = st.number_input('Number of Days:', min_value=1, max_value=365, step=1)
-forecast_button = st.button('Start Forecasting')
+forecast_button = st.button('Forecast')
 
 if forecast_button:
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -73,6 +89,9 @@ if forecast_button:
         'Day': [f"Day {i+1}" for i in range(num_days)],
         'Forecasted Value': results
     })
-    time.sleep(3)
+
     st.table(forecast_df)
     send_to_slack(f"Forecast were generated successfully for {model}. {now}")
+
+    st.write("**Suggested Strategy based on Price Forcasting & Competitor Analysis:**")
+    st.write(pps(results, competitor_strategy))

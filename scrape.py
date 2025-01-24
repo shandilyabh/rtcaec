@@ -14,7 +14,7 @@ import csv
 from random import randint
 from tqdm import tqdm
 from datetime import datetime
-from utils.analyse_sentiment import analyse_sentiment
+from utils.llm_inference import analyse_sentiment
 
 PRODUCTS_LINKS_MAP = {
     "whirpool": "https://www.amazon.in/Whirlpool-Fully-Automatic-WHITEMAGIC-ROYAL-7-0/dp/B08QP41KBP/?th=1",
