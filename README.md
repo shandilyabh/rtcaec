@@ -22,12 +22,27 @@ This project tracks Amazon product prices, forecasts future prices using ARIMA m
 
 ## Setup
 
-### 1. Retrieve Slack Incoming Webhook URL
-- Create a Slack app and configure an **incoming webhook** for a Slack channel.
-- Note down the Webhook URL.
+### Procedure to Retrieve a Slack Incoming Webhook URL:
+
+1. **Log in to Slack**: Open your Slack workspace in a browser or the app.
+2. **Go to API Website**: Navigate to [Slack API](https://api.slack.com/).
+3. **Create an App**:
+   - Click on **"Create an App"**.
+   - Choose **"From scratch"** and name your app.
+   - Select the workspace where the app will be used.
+4. **Enable Incoming Webhooks**:
+   - In your app settings, go to **"Incoming Webhooks"**.
+   - Toggle **"Activate Incoming Webhooks"** to ON.
+5. **Add a Webhook to a Channel**:
+   - Scroll down and click **"Add New Webhook to Workspace"**.
+   - Select the channel where messages will be sent.
+   - Click **"Allow"**.
+6. **Copy Webhook URL**:
+   - After adding, the webhook URL will be displayed.
+   - Copy and use it in your application.
 
 ### 2. Retrieve Gemini API Key
-- Obtain a Gemini API key for sentiment analysis.
+- Obtain a Gemini API key.
 - Keep the key securely stored for configuration.
 
 ---
@@ -54,7 +69,7 @@ This project tracks Amazon product prices, forecasts future prices using ARIMA m
 
 ## Helper Functions in `utils/`
 
-- `analyse_sentiment.py`: Sentiment analysis using Gemini API.
+- `llm_inference.py`: functions using Gemini API for sentiment analysis and strategy prediction and suggestion.
 - `arima.py`: Functions for training ARIMA models and forecasting prices.
 - `slack_notification.py`: Functions for sending notifications via Slack.
 
