@@ -11,10 +11,9 @@ load_dotenv()
 
 def provide_predictive_strategy(forecasted_prices, competitor_strategy):
     '''
-    function to generate the analysis of
-    competitor strategy based on
-    scraped data of prices discounts
-    and current date
+    function to generate strategy
+    based on forecasted prices and
+    competitor strategy
     '''
     system_prompt = """Based on the Forecasted Prices of the given Products and the Competitor Strategy Analysis, provide a predictive strategy for the next 7 days. Make sure the response should be in 130-160 words only. Keep the dates in mind as well, and provide a detailed strategy based on the forecasted prices and competitor strategy. Here is the forecasted prices and competitor strategy:"""
 
