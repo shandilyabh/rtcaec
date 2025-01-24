@@ -62,7 +62,7 @@ This project tracks Amazon product prices, forecasts future prices using ARIMA m
 - `assets/scraped_data_products.json`: Stores the accumulated scraped data.
 - `assets/last_scraped_data`: Contains data from the latest scraping run.
 - `assets/forecasting_assets/models`: ARIMA models for price forecasting.
-- `assets/forecasting_assets/arima_training_data`: Training data for ARIMA models.
+- `assets/forecasting_assets/arima_training_data`: Training data for ARIMA models. (csv files)
 - `assets/price_history_data`: Daily price records in CSV format.
 
 ---

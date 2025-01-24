@@ -15,7 +15,14 @@ def provide_predictive_strategy(forecasted_prices, competitor_strategy):
     based on forecasted prices and
     competitor strategy
     '''
-    system_prompt = """Based on the Forecasted Prices of the given Products and the Competitor Strategy Analysis, provide a predictive strategy for the next 7 days. Make sure the response should be in 130-160 words only. Keep the dates in mind as well, and provide a detailed strategy based on the forecasted prices and competitor strategy. Here is the forecasted prices and competitor strategy:"""
+
+    system_prompt = """Based on the Forecasted Prices of the given Products and the Competitor Strategy Analysis, provide a predictive strategy for the next 7 days. 
+    
+    Make sure the response should be in 130-160 words only. Keep the dates in mind as well, and provide a strategy based on the forecasted prices and competitor strategy. 
+    
+    IMPORTANT: Be Directional. provide Bullet points clearly stating what should be done.
+     
+     Here is the forecasted prices and competitor strategy:"""
 
     genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
@@ -35,6 +42,8 @@ def analyse_competitor_strategy(last_scraped_data: dict):
     all the various products. mention the key points that you have observed. the date of the data
     is very important as well, keep in mind the Indian festival calender and infer information based
     on tha as well.
+
+    IMPORTANT: Provide Concise and Clear Bullet Points for what patterns and strategies you have observed.
 
     Here is the last scraped data:"""
     genai.configure(api_key=os.getenv("GEMINI_API_KEY"))

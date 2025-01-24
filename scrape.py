@@ -17,12 +17,12 @@ from datetime import datetime
 from utils.llm_inference import analyse_sentiment
 
 PRODUCTS_LINKS_MAP = {
+    "s23": "https://www.amazon.in/Samsung-Galaxy-Ultra-Phantom-Storage/dp/B0BT9FDZ8N/?th=1",
     "whirpool": "https://www.amazon.in/Whirlpool-Fully-Automatic-WHITEMAGIC-ROYAL-7-0/dp/B08QP41KBP/?th=1",
     "ps5": "https://www.amazon.in/Sony-CFI-2008A01X-PlayStation%C2%AE5-Console-slim/dp/B0CY5HVDS2/?th=1",
     "thinkpad": "https://www.amazon.in/Lenovo-ThinkPad-Laptop-Windows-21JKS13L00/dp/B0D66YKRTZ/?th=1",
     "camera": "https://www.amazon.in/Sony-ZV-1-Microphone-Vlogging-Creation/dp/B08JVPJXMT/?th=1",
     "iphone": "https://www.amazon.in/Apple-iPhone-15-128-GB/dp/B0CHX1W1XY?th=1",
-    "s23": "https://www.amazon.in/Samsung-Galaxy-Ultra-Phantom-Storage/dp/B0BT9FDZ8N/?th=1"
 }
 
 # random user agent:
@@ -62,10 +62,14 @@ def scrape_data_and_save(amazon_link):
         right_format = valid_page_format(driver, amazon_link)
     
     title = driver.find_element(By.CLASS_NAME, 'product-title-word-break').text
-    price = driver.find_element(By.CLASS_NAME, 'priceToPay').text
     try:
-        discount = driver.find_element(By.CLASS_NAME, 'savingsPercentage').text
+        price = driver.find_element(By.CLASS_NAME, 'priceToPay').text
+        try:
+            discount = driver.find_element(By.CLASS_NAME, 'savingsPercentage').text
+        except:
+            discount = "None"
     except:
+        price = "Currently Unavailable"
         discount = "None"
     
     review_section = right_format.find_element(By.CLASS_NAME, 'review-views')
