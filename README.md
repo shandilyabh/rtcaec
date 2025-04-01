@@ -1,8 +1,8 @@
 
 # Real Time Competitor Analysis for E-Commerce
 
-This project tracks Amazon product prices, forecasts future prices using ARIMA models, and sends notifications via Slack.
-
+This project tracks product prices, forecasts future prices using ARIMA models, and sends notifications via Slack.
+> currently only scrapes Amazon. remaining: integrating Flipkart
 ---
 
 ## Installation
